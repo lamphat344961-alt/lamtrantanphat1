@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TTNHOM extends StatelessWidget {
-  const TTNHOM({super.key});
+class InforPage extends StatelessWidget {
+  const InforPage({super.key});
 
   @override
   Widget build(BuildContext context) {

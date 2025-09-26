@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import "HomeSreen/ProfilePage.dart";
-import "HomeSreen/TTNHOM.dart";
+import "HomeSreen/OneTouch.dart";
+import "HomeSreen/InforPage.dart";
 import 'HomeSreen/HomePage.dart';
 import 'HomeSreen/AlarmPage.dart';
-import 'HomeSreen/FavoritePage.dart';
+import 'HomeSreen/ScanPage.dart';
 import 'HomeSreen/NotificationPage.dart';
 
 void main() => runApp(const MyApp());
@@ -38,20 +38,20 @@ class _MainScreenState extends State<MainScreen> {
   final _pages = const [
     HomePage(),
     AlarmPage(),
-    FavoritePage(),
+    ScanPage(),
     NotificationPage(),
-    ProfilePage(),
-    TTNHOM(),
+    OneTouch(),
+    InforPage(),
   ];
 
   // Danh sách tiêu đề cho AppBar
   final _titles = [
     'Trang chủ',
-    'Tìm kiếm',
+    'Báo thức',
     'Yêu thích',
     'Thông báo',
-    'Hồ sơ',
-    'Infor_group',
+    'Gọi_Xem',
+    'Thông tin',
   ];
 
   @override
