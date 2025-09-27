@@ -4,7 +4,7 @@ import "HomeSreen/InforPage.dart";
 import 'HomeSreen/HomePage.dart';
 import 'HomeSreen/AlarmPage.dart';
 import 'HomeSreen/ScanPage.dart';
-import 'HomeSreen/NotificationPage.dart';
+import 'HomeSreen/TransPage.dart';
 
 void main() => runApp(const MyApp());
 
@@ -39,20 +39,13 @@ class _MainScreenState extends State<MainScreen> {
     HomePage(),
     AlarmPage(),
     ScanPage(),
-    NotificationPage(),
+    TransPage(),
     OneTouch(),
     InforPage(),
   ];
 
   // Danh sách tiêu đề cho AppBar
-  final _titles = [
-    'Trang chủ',
-    'Báo thức',
-    'Yêu thích',
-    'Thông báo',
-    'Gọi_Xem',
-    'Thông tin',
-  ];
+  final _titles = ['Trang chủ', 'Alarm', 'Trans', 'Scan', 'OneTouch', 'Infor'];
 
   @override
   Widget build(BuildContext context) {
@@ -92,29 +85,29 @@ class _MainScreenState extends State<MainScreen> {
               label: 'Trang chủ',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search_outlined),
-              activeIcon: Icon(Icons.search),
-              label: 'Tìm kiếm',
+              icon: Icon(Icons.access_alarm_outlined),
+              activeIcon: Icon(Icons.access_alarm),
+              label: 'Alarm',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.favorite_outline),
               activeIcon: Icon(Icons.favorite),
-              label: 'Yêu thích',
+              label: 'Trans',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.notifications_outlined),
               activeIcon: Icon(Icons.notifications),
-              label: 'Thông báo',
+              label: 'Scan',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              activeIcon: Icon(Icons.person),
-              label: 'Hồ sơ',
+              icon: Icon(Icons.route_outlined), // Icon tuyến đường
+              activeIcon: Icon(Icons.route),
+              label: 'OneTouch',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings_outlined),
-              activeIcon: Icon(Icons.settings),
-              label: 'Infor_group',
+              icon: Icon(Icons.people_alt_outlined),
+              activeIcon: Icon(Icons.people_alt),
+              label: 'Infor',
             ),
           ],
         ),

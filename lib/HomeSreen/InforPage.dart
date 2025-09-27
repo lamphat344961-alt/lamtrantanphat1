@@ -1,10 +1,81 @@
 import 'package:flutter/material.dart';
 
+// 1) Model có thêm ảnh (avatar)
+class Member {
+  final String name;
+  final String role;
+  final Color color; // dùng để phối sắc nhấn/viền
+  final String email;
+  final String specialty;
+  final String experience;
+  final String hobbies;
+  final String avatar; // đường dẫn ảnh (asset hoặc URL)
+
+  const Member({
+    required this.name,
+    required this.role,
+    required this.color,
+    required this.email,
+    required this.specialty,
+    required this.experience,
+    required this.hobbies,
+    required this.avatar,
+  });
+}
+
+// 2) Trang hiển thị
 class InforPage extends StatelessWidget {
   const InforPage({super.key});
 
+  // 3) Dữ liệu cố định cho 3–4 người (avatar là asset minh họa)
+  final List<Member> members = const [
+    Member(
+      name: 'Nguyễn Văn A',
+      role: 'Leader',
+      color: Colors.blue,
+      email: 'vana@example.com',
+      specialty: 'Quản lý dự án',
+      experience: '5 năm kinh nghiệm trong lĩnh vực IT',
+      hobbies: 'Đọc sách, chơi bóng đá',
+      avatar: 'assets/image/cusin_1.jpg',
+    ),
+    Member(
+      name: 'Trần Thị B',
+      role: 'Developer',
+      color: Colors.green,
+      email: 'thib@example.com',
+      specialty: 'Flutter Developer',
+      experience: '2 năm kinh nghiệm Mobile App',
+      hobbies: 'Chạy bộ, nghe nhạc',
+      avatar: 'assets/image/cusin_1.jpg',
+    ),
+    Member(
+      name: 'Lê Văn C',
+      role: 'Designer',
+      color: Colors.purple,
+      email: 'vanc@example.com',
+      specialty: 'UI/UX Design',
+      experience: '3 năm kinh nghiệm thiết kế ứng dụng',
+      hobbies: 'Vẽ, du lịch, cà phê',
+      avatar: 'assets/image/cusin_1.jpg',
+    ),
+    // Có thể thêm người thứ 4 nếu bạn muốn:
+    Member(
+      name: 'Lê Văn D',
+      role: 'Designer',
+      color: Color.fromARGB(255, 180, 8, 8),
+      email: 'vanaaac@example.com',
+      specialty: 'UI/UX Design',
+      experience: '3 năm kinh nghiệm thiết kế ứng dụng',
+      hobbies: 'Vẽ, du lịch, cà phê',
+      avatar: 'assets/image/cusin_1.jpg',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Column(
@@ -13,84 +84,28 @@ class InforPage extends StatelessWidget {
           // Header
           Text(
             'Thông tin nhóm',
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
+              color: theme.colorScheme.primary,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             'Lướt qua để xem thông tin từng thành viên',
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: Colors.grey[600],
+            ),
           ),
           const SizedBox(height: 24),
 
-          // PageView cho 3 thành viên
+          // PageView hiển thị các thẻ thành viên
           Expanded(
-            child: PageView(
-              children: [
-                // Thành viên 1
-                _buildMemberCard(
-                  context,
-                  memberName: 'Thành viên 1',
-                  memberRole: 'Leader',
-                  cardColor: Colors.blue,
-                ),
-
-                // Thành viên 2
-                _buildMemberCard(
-                  context,
-                  memberName: 'Thành viên 2',
-                  memberRole: 'Developer',
-                  cardColor: Colors.green,
-                ),
-
-                // Thành viên 3
-                _buildMemberCard(
-                  context,
-                  memberName: 'Thành viên 3',
-                  memberRole: 'Designer',
-                  cardColor: Colors.purple,
-                ),
-              ],
+            child: PageView.builder(
+              itemCount: members.length,
+              itemBuilder: (context, index) {
+                return _buildMemberCard(context, members[index]);
+              },
             ),
-          ),
-
-          // Indicator dots
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 8,
-                height: 8,
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                decoration: const BoxDecoration(
-                  color: Colors.blue,
-                  shape: BoxShape.circle,
-                ),
-              ),
-              Container(
-                width: 8,
-                height: 8,
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  shape: BoxShape.circle,
-                ),
-              ),
-              Container(
-                width: 8,
-                height: 8,
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ],
           ),
 
           const SizedBox(height: 16),
@@ -109,122 +124,170 @@ class InforPage extends StatelessWidget {
     );
   }
 
-  Widget _buildMemberCard(
-    BuildContext context, {
-    required String memberName,
-    required String memberRole,
-    required Color cardColor,
-  }) {
+  // 4) Card: dùng ảnh làm nền, overlay tên/vai trò + chi tiết ngay TRONG ảnh
+  Widget _buildMemberCard(BuildContext context, Member m) {
     return Card(
       elevation: 8,
       margin: const EdgeInsets.symmetric(horizontal: 8),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [cardColor.withOpacity(0.8), cardColor.withOpacity(0.6)],
-          ),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Avatar placeholder (để bạn thêm hình ảnh)
-              Container(
-                width: 120,
-                height: 120,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.9),
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 4),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                ),
-                child: const Icon(Icons.person, size: 60, color: Colors.grey),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Stack(
+          children: [
+            // Ảnh nền
+            Positioned.fill(
+              child: Image.asset(
+                m.avatar, // nếu muốn dùng URL: Image.network(m.avatar)
+                fit: BoxFit.cover,
               ),
+            ),
 
-              const SizedBox(height: 24),
-
-              // Tên thành viên
-              Text(
-                memberName,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-
-              const SizedBox(height: 8),
-
-              // Vai trò
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 6,
-                ),
+            // Lớp phủ gradient để chữ nổi bật (từ trong suốt -> đen)
+            Positioned.fill(
+              child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  memberRole,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: const [
+                      Colors.transparent,
+                      Colors.black54,
+                      Colors.black87,
+                    ],
+                    stops: const [0.4, 0.75, 1.0],
                   ),
                 ),
               ),
+            ),
 
-              const SizedBox(height: 32),
-
-              // Info section (để bạn thêm thông tin)
-              Container(
-                width: double.infinity,
+            // Nội dung chữ đè trên ảnh
+            Positioned.fill(
+              child: Padding(
                 padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Thông tin chi tiết:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                    // Tên + vai trò (trên cùng, có tag vai trò)
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            m.name,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                              shadows: [
+                                Shadow(blurRadius: 6, color: Colors.black45),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: m.color.withOpacity(0.9),
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          child: Text(
+                            m.role,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 12),
-                    Text(
-                      '• Email: [Để trống - bạn thêm vào]\n'
-                      '• Chuyên môn: [Để trống - bạn thêm vào]\n'
-                      '• Kinh nghiệm: [Để trống - bạn thêm vào]\n'
-                      '• Sở thích: [Để trống - bạn thêm vào]',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                        height: 1.5,
-                      ),
+                    const Spacer(),
+
+                    // Khối thông tin chi tiết (nằm dưới cùng trong ảnh)
+                    _infoPill(
+                      icon: Icons.email_rounded,
+                      label: 'Email',
+                      value: m.email,
+                    ),
+                    const SizedBox(height: 8),
+                    _infoPill(
+                      icon: Icons.workspace_premium_rounded,
+                      label: 'Chuyên môn',
+                      value: m.specialty,
+                    ),
+                    const SizedBox(height: 8),
+                    _infoPill(
+                      icon: Icons.badge_rounded,
+                      label: 'Kinh nghiệm',
+                      value: m.experience,
+                    ),
+                    const SizedBox(height: 8),
+                    _infoPill(
+                      icon: Icons.favorite_rounded,
+                      label: 'Sở thích',
+                      value: m.hobbies,
+                      maxLines: 2,
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  // 5) Widget hiển thị 1 dòng info gọn gàng, dễ đọc trên nền ảnh
+  Widget _infoPill({
+    required IconData icon,
+    required String label,
+    required String value,
+    int maxLines = 1,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.45),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.white24, width: 0.6),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, size: 18, color: Colors.white),
+          const SizedBox(width: 10),
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: '$label: ',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  TextSpan(
+                    text: value,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+              maxLines: maxLines,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
       ),
     );
   }

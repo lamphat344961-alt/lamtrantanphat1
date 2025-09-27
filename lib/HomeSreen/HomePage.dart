@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'LAMTRANTANPHAT',
+                    'NHÓM_______',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary,
