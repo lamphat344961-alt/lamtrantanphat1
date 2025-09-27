@@ -90,13 +90,15 @@ class _MainScreenState extends State<MainScreen> {
               label: 'Alarm',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_outline),
-              activeIcon: Icon(Icons.favorite),
+              icon: Icon(
+                Icons.translate_outlined,
+              ), // Biểu tượng dịch thuật (rỗng)
+              activeIcon: Icon(Icons.translate), // Biểu tượng dịch thuật (đầy)
               label: 'Trans',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_outlined),
-              activeIcon: Icon(Icons.notifications),
+              icon: Icon(Icons.search_outlined), // Biểu tượng tìm kiếm
+              activeIcon: Icon(Icons.search),
               label: 'Scan',
             ),
             BottomNavigationBarItem(
