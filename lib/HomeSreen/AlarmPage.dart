@@ -19,7 +19,7 @@ class _AlarmPageState extends State<AlarmPage> {
 
   // Silence auto-stop
   Timer? _silenceTimer;
-  final int _silenceTimeout = 3; // giây im lặng
+  final int _silenceTimeout = 2; // giây im lặng
   double _soundLevel = 0;
 
   // UI state
@@ -42,8 +42,8 @@ class _AlarmPageState extends State<AlarmPage> {
   // ==== SPEECH ====
   Future<void> _initSpeech() async {
     final ready = await _speech.initialize(
-      onStatus: (s) => setState(() => _status = 'STT: $s'),
-      onError: (e) => setState(() => _status = 'Lỗi STT: $e'),
+      onStatus: (s) => setState(() => _status = 'TT: $s'),
+      onError: (e) => setState(() => _status = 'Lỗi TT: $e'),
       debugLogging: false,
     );
     final perm = await _speech.hasPermission;
