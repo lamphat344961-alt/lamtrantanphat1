@@ -5,18 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
+// ML Kit
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+
+// Import cho InputImage
+import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({super.key});
   @override
-  State<ScanPage> createState() => _FavoritePageState();
+  State<ScanPage> createState() => _ScanPageState();
 }
 
-class _FavoritePageState extends State<ScanPage>
+class _ScanPageState extends State<ScanPage>
     with SingleTickerProviderStateMixin {
-  // ── Tabs: Text | Voice | Image
+  // ── Tabs: Text | Voice | Image (đã bỏ LiveCam)
   late final TabController _tab = TabController(length: 3, vsync: this);
 
   // ── Ngôn ngữ
@@ -95,7 +99,7 @@ class _FavoritePageState extends State<ScanPage>
     } catch (e) {
       _snack('Lỗi tải model: $e');
     } finally {
-      setState(() => _busy = false);
+      if (mounted) setState(() => _busy = false);
     }
   }
 
@@ -117,7 +121,7 @@ class _FavoritePageState extends State<ScanPage>
     } catch (e) {
       _snack('Lỗi dịch: $e');
     } finally {
-      setState(() => _busy = false);
+      if (mounted) setState(() => _busy = false);
     }
   }
 
@@ -145,7 +149,7 @@ class _FavoritePageState extends State<ScanPage>
   Future<void> _startVoice() async {
     if (!_engineReady) return _snack('Nhận giọng nói chưa sẵn sàng.');
     if (!_hasMicPerm) {
-      final ok = await _speech.initialize();
+      await _speech.initialize();
       _hasMicPerm = await _speech.hasPermission;
       if (!_hasMicPerm) return _snack('Chưa có quyền micro.');
     }
@@ -216,7 +220,7 @@ class _FavoritePageState extends State<ScanPage>
     } catch (e) {
       _snack('Lỗi OCR: $e');
     } finally {
-      setState(() => _busy = false);
+      if (mounted) setState(() => _busy = false);
     }
   }
 

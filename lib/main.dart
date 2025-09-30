@@ -38,8 +38,8 @@ class _MainScreenState extends State<MainScreen> {
   final _pages = const [
     HomePage(),
     AlarmPage(),
-    ScanPage(),
-    TransPage(),
+    ScanPage(), // label là Trans
+    TransPage(), // label là Scans
     OneTouch(),
     InforPage(),
   ];
